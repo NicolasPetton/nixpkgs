@@ -1,7 +1,7 @@
 { stdenv, fetchurl, pkgconfig, file, intltool, gobjectIntrospection, glib
 , clutter_gtk, clutter-gst, gnome3, gtksourceview, libmusicbrainz
 , webkitgtk, libmusicbrainz5, icu, makeWrapper, gst_all_1
-, gdk_pixbuf, librsvg, gtk3 }:
+, gdk_pixbuf, librsvg, gtk3, harfbuzz }:
 
 stdenv.mkDerivation rec {
   inherit (import ./src.nix fetchurl) name src;
@@ -11,9 +11,16 @@ stdenv.mkDerivation rec {
   buildInputs = [ pkgconfig file intltool gobjectIntrospection glib gtk3
                   clutter_gtk clutter-gst gnome3.gjs gtksourceview gdk_pixbuf
                   librsvg gnome3.defaultIconTheme libmusicbrainz5 webkitgtk
-                  gnome3.evince icu makeWrapper ];
+                  gnome3.evince icu makeWrapper harfbuzz ];
 
   enableParallelBuilding = true;
+
+  postConfigure = ''
+    substituteInPlace src/libsushi/sushi-font-widget.h \
+        --replace "<hb-ft.h>" "<harfbuzz/hb-ft.h>"
+    substituteInPlace src/libsushi/sushi-font-widget.c \
+        --replace "<hb-glib.h>" "<harfbuzz/hb-glib.h>"
+  '';
 
   preFixup = ''
     wrapProgram $out/libexec/sushi-start \
