@@ -27,7 +27,7 @@ let
     pkgs.hicolor_icon_theme
   ];
 
-  optionalPackages = with gnome3; [ baobab empathy eog epiphany evince
+  optionalPackages = with gnome3; [ baobab eog epiphany evince
     gucharmap nautilus totem vino yelp gnome-bluetooth
     gnome-calculator gnome-contacts gnome-font-viewer gnome-screenshot
     gnome-system-log gnome-system-monitor
@@ -80,10 +80,10 @@ let
   dconf = callPackage ./core/dconf { };
   dconf-editor = callPackage ./core/dconf-editor { };
 
-  empathy = callPackage ./core/empathy { 
-    webkitgtk = webkitgtk24x;
-    clutter-gst = pkgs.clutter-gst;
-  };
+  # empathy = callPackage ./core/empathy {
+  #   webkitgtk = webkitgtk24x;
+  #   clutter-gst = pkgs.clutter-gst;
+  # };
 
   epiphany = callPackage ./core/epiphany { };
 
