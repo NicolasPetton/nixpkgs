@@ -18,7 +18,9 @@ stdenv.mkDerivation rec {
   propagatedBuildInputs = [ glibmm gtk3 atkmm cairomm pangomm ];
 
   enableParallelBuilding = true;
-  doCheck = true;
+
+  # https://bugzilla.gnome.org/show_bug.cgi?id=764521
+  doCheck = false;
 
   meta = with stdenv.lib; {
     description = "C++ interface to the GTK+ graphical user interface library";
